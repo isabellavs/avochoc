@@ -3,10 +3,6 @@ import sys
 def main():
 
     inStr = sys.argv[1]
-    
-    # Why .replace? 
-    # I trust that python has an algorithm faster than looping through the string.
-    inStr.replace(' ', '')
 
     # using str.replace() since python's version is optimised, in C and does not do the whole str concat thing
     # that would happen if I loop through the string and replaced the offending chars.
