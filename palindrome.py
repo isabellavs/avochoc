@@ -1,5 +1,9 @@
 import sys
 
+'''
+Practical, Section A, Data Structures 1, 1
+'''
+
 def main():
 
     # using str.replace() since python's version is optimised
@@ -20,5 +24,9 @@ def main():
     else:
         print("No\n")
 
+# expects input as a commandline parameter
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        print("\nPlease supply the word to test as a commandline parameter.\nIf more than one phrase, enclose in double quotes.\n")
+    else:
+        main()
