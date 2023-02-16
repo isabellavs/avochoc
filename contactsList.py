@@ -19,7 +19,7 @@ class Node:
 
 #------------------------------------------------------------------------------
 class SkipList:
-  def __init__(self, maxLevels=20):
+  def __init__(self, maxLevels=10):
       
     self.maxLevels = maxLevels
     self.head = Node(None, None, maxLevels)
@@ -54,7 +54,7 @@ class SkipList:
     return update
   
   #--------------------------------------------------------------------------
-  def initialInsert(self, first_name, last_name):
+  def insert(self, first_name, last_name):
     
     updateList = [None] * (self.maxLevels + 1)
     head = self.head
@@ -80,15 +80,7 @@ class SkipList:
       for i in range(newLevel + 1):
         head.next[i] = updateList[i].next[i]
         updateList[i].next[i] = head
-    
-  #--------------------------------------------------------------------------
-  def insert(self, first_name, last_name):
-    
-    if self.search(first_name, last_name).key is not None:
-      return
-      
-    self.initialInsert(first_name, last_name)
-    
+  
   #--------------------------------------------------------------------------
   def search(self, first_name, last_name):
     
@@ -101,7 +93,7 @@ class SkipList:
     head = self.head
     
     for i in range(self.level, -1, -1):
-      while head.next[i] and head.next[i].key < key:
+      while (head.next[i] is not None) and (head.next[i].key < key):
         head = head.next[i]
         
     head = head.next[0]
@@ -132,7 +124,7 @@ class SkipList:
   def update(self, first_name, last_name, newFirstName, newLastName):
 
     self.remove(first_name, last_name)
-    self.initialInsert(newFirstName, newLastName)
+    self.insert(newFirstName, newLastName)
 
 #------------------------------------------------------------------------------
 def testSL(sl):
@@ -145,7 +137,7 @@ def testSL(sl):
   print(sl.search('Mitsue', 'Tollner').values)
   print(sl.search('Someone', 'Fake').values)
   print(sl.search('James', 'Butt').values)
-  print(f'{time.time() - st2}: searched three\n')
+  print(f'{time.time() - st2}: searched two and one false\n')
   
   print('test insert:\n-----------:')
   st2 = time.time()
@@ -183,7 +175,7 @@ def main():
     with open('datastructures2.csv', 'r') as inData:
         for line in inData.readlines():
             y = line.partition(';')
-            sl.initialInsert(y[0], y[2][:-1])
+            sl.insert(y[0], y[2][:-1])
     print(f'\n{time.time() - st1}: file read duration\n')
 
     testSL(sl)
